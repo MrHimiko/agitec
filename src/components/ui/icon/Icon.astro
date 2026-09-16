@@ -1,0 +1,24 @@
+---
+import { icons } from './icons.js';
+import './icon.css';
+
+const { name, size, width, height, class: className, label } = Astro.props;
+const icon = icons[name];
+if (!icon) throw new Error(`Unknown icon: ${name}`);
+const [, , vw, vh] = icon.box.split(' ').map(Number);
+const w = width ?? size ?? vw;
+const h = height ?? size ?? vh;
+---
+<svg
+  class:list={['c-icon', `c-icon--${name}`, className]}
+  width={w}
+  height={h}
+  viewBox={icon.box}
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  focusable="false"
+  set:html={icon.body}
+/>

@@ -1,0 +1,29 @@
+.c-eyebrow {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-navy-900);
+}
+
+.c-eyebrow .dot {
+  width: 0.25rem;
+  height: 0.25rem;
+  background: var(--color-primary);
+  flex: none;
+}
+
+.c-eyebrow .label {
+  opacity: 0.5;
+}
+
+.c-eyebrow--sm {
+  font-size: 0.75rem;
+  gap: 0.625rem;
+}

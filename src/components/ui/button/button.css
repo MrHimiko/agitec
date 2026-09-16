@@ -1,0 +1,121 @@
+.c-btn {
+  --btn-bg: transparent;
+  --btn-color: var(--color-navy-900);
+  --btn-border: transparent;
+  --btn-fill: var(--color-navy-900);
+  --btn-fill-color: var(--color-white);
+  --btn-fill-border: var(--btn-fill);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.75rem;
+  height: 3.25rem;
+  padding: 0 1.5rem;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+  white-space: nowrap;
+  color: var(--btn-color);
+  background: var(--btn-bg);
+  border: 0;
+  border-radius: 0;
+  transition: color 0.45s var(--ease-out), border-color 0.45s var(--ease-out);
+}
+
+.c-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-fill);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.c-btn .btn-icon {
+  transition: transform 0.45s var(--ease-out);
+}
+
+.c-btn:hover,
+.c-btn.is-hover {
+  color: var(--btn-fill-color);
+}
+
+.c-btn:hover::before,
+.c-btn.is-hover::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.c-btn:hover .btn-icon,
+.c-btn.is-hover .btn-icon {
+  transform: translateX(0.25rem);
+}
+
+.c-btn:active::before {
+  transition-duration: 0.2s;
+}
+
+.c-btn--primary {
+  --btn-bg: var(--color-primary);
+  --btn-color: var(--color-white);
+  --btn-fill: var(--color-navy-900);
+}
+
+.c-btn--white {
+  --btn-bg: var(--color-white);
+  --btn-fill: var(--color-primary);
+}
+
+.c-btn--outline,
+.c-btn--line {
+  border: 1px solid var(--btn-border);
+}
+
+.c-btn--outline::before,
+.c-btn--line::before {
+  inset: -1px;
+}
+
+.c-btn--outline {
+  --btn-color: var(--color-gray-600);
+  --btn-border: var(--color-gray-300);
+  --btn-bg: var(--color-white);
+  --btn-fill: var(--color-navy-900);
+}
+
+.c-btn--outline:hover,
+.c-btn--outline.is-hover {
+  border-color: var(--color-navy-900);
+}
+
+.c-btn--line {
+  --btn-color: var(--color-primary);
+  --btn-border: var(--color-border);
+  --btn-fill: var(--color-primary);
+  justify-content: space-between;
+}
+
+.c-btn--line:hover,
+.c-btn--line.is-hover {
+  border-color: var(--color-primary);
+}
+
+.c-btn--nav {
+  height: 2.8125rem;
+  padding: 0 1.25rem;
+}
+
+.c-btn--sm {
+  height: 2.75rem;
+}
+
+.c-btn--block {
+  display: flex;
+  width: 100%;
+}

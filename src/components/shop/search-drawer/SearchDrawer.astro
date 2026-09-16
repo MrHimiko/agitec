@@ -1,0 +1,124 @@
+---
+import { getImage } from 'astro:assets';
+import Drawer from '../../ui/drawer/Drawer.astro';
+import Icon from '../../ui/icon/Icon.astro';
+import BrandMark from '../../ui/brand-mark/BrandMark.astro';
+import aerogel from '../../../assets/images/app-aerogel.jpg';
+import system from '../../../assets/images/app-system.jpg';
+import vakuum from '../../../assets/images/app-vakuum.jpg';
+import kern from '../../../assets/images/app-kern.jpg';
+import { products as productNav, applications, contact } from '../../../data/navigation.js';
+import { shopProducts, shopDownloads, popularSearches, recentlyViewed, formatChf } from '../../../data/shop.js';
+import './search-drawer.css';
+
+const sources = { aerogel, system, vakuum, kern };
+const thumbs = {};
+for (const [key, src] of Object.entries(sources)) {
+  thumbs[key] = (await getImage({ src, width: 176, height: 176, fit: 'cover', format: 'webp' })).src;
+}
+
+const applicationEntries = applications.items.flatMap((item) => [
+  { name: item.title, meta: 'Anwendungsbereich' },
+  ...(item.links || []).map((link) => ({ name: link, meta: item.title })),
+]);
+
+const index = {
+  products: shopProducts.map((p) => ({ ...p, thumb: thumbs[p.image], priceLabel: `ab ${formatChf(p.price)}` })),
+  applications: applicationEntries,
+  downloads: shopDownloads,
+};
+
+const recent = recentlyViewed.map((id) => index.products.find((p) => p.id === id)).filter(Boolean);
+---
+<Drawer id="search" size="lg" class="c-search-drawer">
+  <Fragment slot="title">Suche</Fragment>
+  <kbd class="search-kbd" slot="head">Esc</kbd>
+
+  <div class="c-search" data-search>
+    <form class="search-form" role="search" action="#" data-search-form data-drawer-item style="--i: 0">
+      <label class="sr-only" for="search-input">Suche</label>
+      <Icon name="search" size={20} class="search-icon" />
+      <input
+        class="search-input"
+        id="search-input"
+        type="search"
+        name="q"
+        placeholder="Produkte, Anwendungen, Datenblätter …"
+        autocomplete="off"
+        spellcheck="false"
+        data-search-input
+        data-drawer-autofocus
+      />
+      <button class="search-clear" type="button" aria-label="Eingabe löschen" data-search-clear hidden>
+        <Icon name="close" size={16} />
+      </button>
+      <span class="search-progress" aria-hidden="true"></span>
+    </form>
+
+    <div class="search-idle" data-search-idle>
+      <section class="search-block" data-drawer-item style="--i: 1">
+        <p class="drawer-block-title">Beliebte Suchen</p>
+        <ul class="chips">
+          {popularSearches.map((term) => (
+            <li>
+              <button class="chip" type="button" data-search-term={term}>
+                <Icon name="search" size={14} />
+                {term}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="search-block" data-drawer-item style="--i: 2">
+        <p class="drawer-block-title">Zuletzt angesehen</p>
+        <ul class="recent">
+          {recent.map((p) => (
+            <li>
+              <a class="recent-card" href="#">
+                <span class="recent-thumb"><img src={p.thumb} alt="" width="88" height="88" loading="lazy" /></span>
+                <span class="recent-name">{p.name}</span>
+                <span class="recent-meta">{p.priceLabel}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="search-block" data-drawer-item style="--i: 3">
+        <p class="drawer-block-title">Produktgruppen</p>
+        <ul class="group-list">
+          {productNav.groups.map((group) => (
+            <li>
+              <a class="group-row" href="#">
+                <span class="group-mark"><BrandMark /></span>
+                <span class="group-name">{group.title}</span>
+                <span class="group-count">{group.count}</span>
+                <Icon name="arrow-right" size={14} class="group-arrow" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+
+    <div class="search-results" data-search-results hidden aria-live="polite"></div>
+  </div>
+
+  <Fragment slot="foot">
+    <div class="search-help">
+      <span class="help-icon"><Icon name="headset" size={22} /></span>
+      <span class="help-body">
+        <span class="help-title">Nicht gefunden, was Sie suchen?</span>
+        <a class="help-link" href={contact.phoneHref}>Anwendungstechnik {contact.phone}</a>
+      </span>
+      <a class="c-btn c-btn--outline c-btn--sm help-btn" href="#"><span class="text">Beratung</span></a>
+    </div>
+  </Fragment>
+</Drawer>
+
+<script type="application/json" id="search-index" set:html={JSON.stringify(index)}></script>
+
+<script>
+  import './search-drawer.js';
+</script>

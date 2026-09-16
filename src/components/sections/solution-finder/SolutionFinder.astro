@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+import Eyebrow from '../../ui/eyebrow/Eyebrow.astro';
+import Tabs from '../../ui/tabs/Tabs.astro';
+import Icon from '../../ui/icon/Icon.astro';
+import BrandMark from '../../ui/brand-mark/BrandMark.astro';
+import aerogel from '../../../assets/images/app-aerogel.jpg';
+import system from '../../../assets/images/app-system.jpg';
+import vakuum from '../../../assets/images/app-vakuum.jpg';
+import kern from '../../../assets/images/app-kern.jpg';
+import { finder } from '../../../data/home.js';
+import { products } from '../../../data/navigation.js';
+import './solution-finder.css';
+
+const images = { aerogel, system, vakuum, kern };
+const { class: className } = Astro.props;
+---
+<section class:list={['c-solution-finder', className]} id="loesungsfinder" aria-labelledby="finder-title">
+  <div class="container">
+    <div class="head">
+      <div data-anim="fade-up"><Eyebrow>{finder.eyebrow}</Eyebrow></div>
+      <h2 class="title fs-48 fw-500 font-heading" id="finder-title" data-anim="split">{finder.title}</h2>
+    </div>
+    <div class="rule" data-anim="line"></div>
+    <div class="intro" data-anim="stagger">
+      <p class="lead fs-17 text-muted" data-anim-item>{finder.text}</p>
+      <div data-anim-item><Tabs tabs={finder.tabs} group="finder" label="Einstieg wählen" /></div>
+    </div>
+
+    <div class="panel is-active" id="finder-panel-applications" role="tabpanel" aria-labelledby="finder-tab-applications">
+      <ul class="cards" data-anim="cards">
+        {finder.applications.map((card) => (
+          <li data-anim-item>
+            <a class="c-app-card" href={card.href}>
+              <span class="media">
+                <Image src={images[card.image]} alt="" widths={[400, 668]} sizes="(max-width: 480px) 100vw, (max-width: 991px) 50vw, 334px" loading="lazy" />
+              </span>
+              <span class="body">
+                <span class="card-title fs-24 fw-500 font-heading">{card.title}</span>
+                <span class="card-text fs-17 text-muted">
+                  {card.text.split('\n').map((line, n) => (n ? <>{' '}<br class="br-lg" />{line}</> : line))}
+                </span>
+                <span class="c-btn c-btn--line c-btn--sm c-btn--block">
+                  <span class="text">{finder.cta}</span>
+                  <Icon name="arrow-right" size={16} class="btn-icon" />
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="panel" id="finder-panel-products" role="tabpanel" aria-labelledby="finder-tab-products" hidden>
+      <ul class="cards cards--products">
+        {products.groups.map((group) => (
+          <li data-card>
+            <a class="c-group-card" href="#">
+              <span class="group-top">
+                <BrandMark />
+                <span class="group-count">{group.count} {group.count === 1 ? 'Produkt' : 'Produkte'}</span>
+              </span>
+              <span class="card-title fs-24 fw-500 font-heading">{group.title}</span>
+              <span class="group-list">
+                {group.links.slice(0, 3).map((link) => <span class="group-item">{link}</span>)}
+              </span>
+              <span class="c-btn c-btn--line c-btn--sm c-btn--block">
+                <span class="text">{finder.productsCta}</span>
+                <Icon name="arrow-right" size={16} class="btn-icon" />
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../../ui/tabs/tabs.js';
+</script>

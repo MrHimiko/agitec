@@ -1,0 +1,15 @@
+---
+import Eyebrow from '../../ui/eyebrow/Eyebrow.astro';
+import Icon from '../../ui/icon/Icon.astro';
+
+const { title, meta, link, href = '#' } = Astro.props;
+---
+<div class="mega-head">
+  <Eyebrow class="c-eyebrow--sm">{title}{meta && <span class="head-meta"> · {meta}</span>}</Eyebrow>
+  {link && (
+    <a class="c-link" href={href}>
+      {link}
+      <Icon name="arrow-right" size={16} />
+    </a>
+  )}
+</div>

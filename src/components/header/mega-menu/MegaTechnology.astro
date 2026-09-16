@@ -1,0 +1,57 @@
+---
+import MegaPanel from './MegaPanel.astro';
+import MegaHead from './MegaHead.astro';
+import Icon from '../../ui/icon/Icon.astro';
+import Eyebrow from '../../ui/eyebrow/Eyebrow.astro';
+import Button from '../../ui/button/Button.astro';
+import BrandMark from '../../ui/brand-mark/BrandMark.astro';
+import { Image } from 'astro:assets';
+import aerogelImage from '../../../assets/images/app-aerogel.jpg';
+import vakuumImage from '../../../assets/images/app-vakuum.jpg';
+import { technology } from '../../../data/navigation.js';
+
+const images = { aerogel: aerogelImage, vakuum: vakuumImage };
+const { aside } = technology;
+---
+<MegaPanel id="technology" label="Technologie">
+  <MegaHead title={technology.title} meta={technology.meta} />
+  <div class="tech-grid">
+    {technology.cards.map((card) => (
+      <article class="tech-card">
+        <a class="tech-media" href="#" tabindex="-1" aria-hidden="true">
+          {card.image ? (
+            <Image src={images[card.image]} alt="" widths={[400, 668]} sizes="300px" loading="lazy" />
+          ) : (
+            <span class="tech-placeholder">
+              <BrandMark size="lg" />
+              <Icon name={card.icon} size={28} class="tech-icon" />
+            </span>
+          )}
+        </a>
+        <h3 class="tech-title"><a href="#">{card.title}</a></h3>
+        <p class="tech-text">{card.text}</p>
+        <ul class="tech-links">
+          {card.links.map((link) => (
+            <li>
+              <a class="row-link" href="#">
+                {link}
+                <Icon name="arrow-right" size={14} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
+
+  <Fragment slot="aside">
+    <Eyebrow class="c-eyebrow--sm">{aside.kicker}</Eyebrow>
+    <div class="aside-icon"><Icon name="file" size={24} /></div>
+    <p class="aside-title">{aside.title}</p>
+    <p class="aside-text">{aside.text}</p>
+    <div class="aside-actions">
+      <Button href="#" variant="primary" size="sm" icon="arrow-right" block>{aside.primary}</Button>
+      <Button href="#" variant="outline" size="sm" block>{aside.secondary}</Button>
+    </div>
+  </Fragment>
+</MegaPanel>

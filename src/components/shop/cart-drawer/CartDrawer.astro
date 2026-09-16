@@ -1,0 +1,82 @@
+---
+import { Image } from 'astro:assets';
+import Drawer from '../../ui/drawer/Drawer.astro';
+import Icon from '../../ui/icon/Icon.astro';
+import Button from '../../ui/button/Button.astro';
+import CartItem from './CartItem.astro';
+import aerogel from '../../../assets/images/app-aerogel.jpg';
+import system from '../../../assets/images/app-system.jpg';
+import vakuum from '../../../assets/images/app-vakuum.jpg';
+import kern from '../../../assets/images/app-kern.jpg';
+import { shopProducts, cartItems, cartRecommendation, formatChf } from '../../../data/shop.js';
+import './cart-drawer.css';
+
+const images = { aerogel, system, vakuum, kern };
+const byId = (id) => shopProducts.find((p) => p.id === id);
+const lines = cartItems.map((item) => ({ ...item, product: byId(item.productId) }));
+const count = lines.reduce((sum, l) => sum + l.qty, 0);
+const subtotal = lines.reduce((sum, l) => sum + l.qty * l.product.price, 0);
+const rec = { ...cartRecommendation, product: byId(cartRecommendation.productId) };
+---
+<Drawer id="cart" class="c-cart-drawer">
+  <Fragment slot="title">
+    Warenkorb <span class="cart-count" data-cart-count>{count}</span>
+  </Fragment>
+
+  <div class="c-cart" data-cart>
+    <ul class="cart-list" data-cart-list>
+      {lines.map((line, i) => (
+        <CartItem product={line.product} variant={line.variant} qty={line.qty} image={images[line.product.image]} index={i} />
+      ))}
+    </ul>
+
+    <div class="cart-empty" data-cart-empty hidden>
+      <span class="empty-icon"><Icon name="cart" width={28} height={29} /></span>
+      <p class="empty-title">Ihr Warenkorb ist leer</p>
+      <p class="empty-text">Entdecken Sie unsere Aerogel- und Vakuumdämmungen oder lassen Sie sich persönlich beraten.</p>
+      <Button href="#" variant="primary" size="sm" icon="arrow-right" data-drawer-close>Produkte entdecken</Button>
+    </div>
+
+    <section class="cart-rec" data-cart-rec data-drawer-item style={`--i: ${lines.length}`}>
+      <p class="drawer-block-title">Passend dazu</p>
+      <div class="rec-card">
+        <span class="rec-thumb">
+          <Image src={images[rec.product.image]} alt="" width={128} height={128} fit="cover" loading="lazy" />
+        </span>
+        <span class="rec-body">
+          <span class="rec-name">{rec.product.name}</span>
+          <span class="rec-meta">{rec.variant} · {formatChf(rec.product.price)}</span>
+        </span>
+        <button class="rec-add" type="button" aria-label={`${rec.product.name} hinzufügen`} data-cart-add>
+          <Icon name="plus" size={16} />
+        </button>
+      </div>
+    </section>
+
+    <template data-cart-template>
+      <CartItem product={rec.product} variant={rec.variant} qty={1} image={images[rec.product.image]} />
+    </template>
+  </div>
+
+  <Fragment slot="foot">
+    <div class="cart-summary" data-cart-summary>
+      <div class="summary-row">
+        <span class="summary-label">Zwischensumme</span>
+        <span class="summary-value" data-cart-subtotal>{formatChf(subtotal)}</span>
+      </div>
+      <p class="summary-note">inkl. MwSt. · Versandkosten werden an der Kasse berechnet</p>
+      <div class="summary-actions">
+        <Button href="#" variant="primary" icon="arrow-right" block>Zur Kasse</Button>
+        <Button href="#" variant="outline" block>Als Offerte anfragen</Button>
+      </div>
+      <button class="summary-continue" type="button" data-drawer-close>
+        <Icon name="arrow-right" size={14} class="back" />
+        Weiter einkaufen
+      </button>
+    </div>
+  </Fragment>
+</Drawer>
+
+<script>
+  import './cart-drawer.js';
+</script>

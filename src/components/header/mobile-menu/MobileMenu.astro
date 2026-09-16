@@ -1,0 +1,84 @@
+---
+import Icon from '../../ui/icon/Icon.astro';
+import Button from '../../ui/button/Button.astro';
+import { mobileNav, contact, languages, groupBrands } from '../../../data/navigation.js';
+import './mobile-menu.css';
+---
+<div class="c-mobile-menu" id="mobile-menu" data-mobile-menu aria-label="Menü">
+  <nav class="mobile-body" aria-label="Hauptnavigation mobil">
+    <ul class="mobile-list">
+      {mobileNav.map((item) => (
+        <li class="mobile-item" data-acc>
+          {item.links ? (
+            <>
+              <button
+                class="mobile-trigger"
+                type="button"
+                aria-expanded="false"
+                aria-controls={`mobile-sub-${item.id}`}
+                data-acc-trigger
+              >
+                {item.label}
+                <span class="pm" aria-hidden="true"><Icon name="plus" size={16} /></span>
+              </button>
+              <div class="mobile-sub" id={`mobile-sub-${item.id}`} data-acc-panel>
+                <ul class="sub-inner">
+                  {item.overview && (
+                    <li><a class="sub-link is-overview" href="#">{item.overview}<Icon name="arrow-right" size={14} /></a></li>
+                  )}
+                  {item.links.map((link) => (
+                    <li><a class="sub-link" href="#">{link}</a></li>
+                  ))}
+                  {item.highlight && (
+                    <li>
+                      <a class="sub-highlight" href="#">
+                        {item.highlight}
+                        <Icon name="arrow-right" size={16} />
+                      </a>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            </>
+          ) : (
+            <a class="mobile-trigger" href={item.href}>
+              {item.label}
+              <Icon name="arrow-right" size={16} class="pm-arrow" />
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+
+    <div class="mobile-cta">
+      <Button href="#" variant="primary" icon="arrow-right" block>Offerte anfragen</Button>
+      <button class="c-btn c-btn--outline c-btn--md c-btn--block mobile-shop" type="button" data-drawer-open="cart">
+        <Icon name="cart" size={18} />
+        <span class="text">Warenkorb (<span data-cart-count>2</span>)</span>
+      </button>
+    </div>
+
+    <div class="mobile-meta">
+      <p class="meta-title">Die Marken der AGI-Gruppe</p>
+      <ul class="meta-brands">
+        {groupBrands.map((brand) => (
+          <li>
+            <a class:list={['meta-brand', { 'is-current': brand.current }]} href={brand.href}>
+              {brand.name}
+              {!brand.current && <Icon name="arrow-up-right" size={14} />}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="meta-row">
+        <a class="meta-contact" href={contact.phoneHref}><Icon name="phone" size={14} />{contact.phone}</a>
+        <a class="meta-contact" href={`mailto:${contact.email}`}>{contact.email}</a>
+      </div>
+      <div class="meta-lang">
+        {languages.map((lang) => (
+          <a class:list={['lang', { 'is-current': lang.current }]} href={lang.href} aria-current={lang.current ? 'true' : undefined}>{lang.code}</a>
+        ))}
+      </div>
+    </div>
+  </nav>
+</div>

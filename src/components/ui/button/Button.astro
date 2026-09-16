@@ -1,0 +1,26 @@
+---
+import Icon from '../icon/Icon.astro';
+import './button.css';
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  icon,
+  block = false,
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+---
+<Tag
+  class:list={['c-btn', `c-btn--${variant}`, `c-btn--${size}`, { 'c-btn--block': block, 'has-icon': icon }, className]}
+  href={href}
+  type={href ? undefined : type}
+  {...rest}
+>
+  <span class="text"><slot /></span>
+  {icon && <Icon name={icon} size={16} class="btn-icon" />}
+</Tag>

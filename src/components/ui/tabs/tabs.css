@@ -1,0 +1,65 @@
+.c-tabs {
+  display: inline-flex;
+  padding: 0.375rem;
+  background: var(--color-surface);
+}
+
+.c-tabs .track {
+  position: relative;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.c-tabs .indicator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--indicator-w, 0);
+  background: var(--color-white);
+  box-shadow: 0 1px 2px rgba(14, 34, 48, 0.06);
+  transform: translateX(var(--indicator-x, 0));
+  transition: transform 0.5s var(--ease-out), width 0.5s var(--ease-out);
+}
+
+.c-tabs:not(.is-ready) .indicator {
+  transition: none;
+}
+
+.c-tabs .tab {
+  position: relative;
+  z-index: 1;
+  padding: 0.625rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.625rem;
+  white-space: nowrap;
+  color: var(--color-navy-900);
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.c-tabs .tab:hover {
+  opacity: 0.8;
+}
+
+.c-tabs .tab.is-active {
+  opacity: 1;
+}
+
+.c-tabs:not(.is-ready) .tab.is-active {
+  background: var(--color-white);
+}
+
+@media (max-width: 30rem) {
+  .c-tabs,
+  .c-tabs .track {
+    width: 100%;
+  }
+
+  .c-tabs .tab {
+    flex: 1;
+    padding-inline: 0.5rem;
+    font-size: 0.875rem;
+  }
+}

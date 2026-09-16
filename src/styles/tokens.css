@@ -1,0 +1,61 @@
+:root {
+  --color-white: #ffffff;
+  --color-navy-900: #0e2230;
+  --color-gray-600: #5d646a;
+  --color-gray-400: #9ba0a3;
+  --color-gray-300: #dedede;
+  --color-gray-200: #e4e4e4;
+  --color-gray-150: #ededed;
+  --color-gray-100: #f7f7f7;
+  --color-gray-50: #f9f9f9;
+  --color-blue-600: #0069b3;
+  --color-blue-700: #005691;
+  --color-blue-500: #4a9bd3;
+  --color-blue-400: #6f9dd3;
+  --color-blue-300: #a3bce3;
+
+  --color-text: var(--color-navy-900);
+  --color-text-muted: var(--color-gray-600);
+  --color-text-subtle: var(--color-gray-400);
+  --color-primary: var(--color-blue-600);
+  --color-primary-hover: var(--color-blue-700);
+  --color-surface: var(--color-gray-100);
+  --color-line: var(--color-gray-150);
+  --color-line-strong: var(--color-gray-300);
+  --color-border: var(--color-gray-200);
+
+  --font-heading: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --font-body: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --font-ui: "Geist Variable", "Geist", system-ui, sans-serif;
+
+  --radius-xs: 0.125rem;
+  --radius-none: 0;
+
+  --container-max: 85rem;
+  --container-padding: 2.5rem;
+  --edge: max(var(--container-padding), calc((100% - var(--container-max)) / 2));
+
+  --header-height: 7.125rem;
+  --topbar-height: 2.375rem;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-panel: 0 1.5rem 3rem -1rem rgba(14, 34, 48, 0.14);
+}
+
+@media (max-width: 75rem) {
+  :root {
+    --header-height: 4.5rem;
+  }
+}
+
+@media (max-width: 61.9375rem) {
+  :root {
+    --container-padding: 1.5rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  :root {
+    --container-padding: 1rem;
+  }
+}

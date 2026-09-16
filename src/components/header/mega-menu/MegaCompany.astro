@@ -1,0 +1,65 @@
+---
+import MegaPanel from './MegaPanel.astro';
+import Icon from '../../ui/icon/Icon.astro';
+import Eyebrow from '../../ui/eyebrow/Eyebrow.astro';
+import Button from '../../ui/button/Button.astro';
+import { company, contact } from '../../../data/navigation.js';
+
+const { news, aside } = company;
+---
+<MegaPanel id="company" label="Unternehmen">
+  <div class="company-grid">
+    {company.columns.map((col) => (
+      <div class="company-col">
+        <Eyebrow class="c-eyebrow--sm">{col.title}</Eyebrow>
+        <ul class="row-list">
+          {col.links.map((link) => (
+            <li>
+              <a
+                class="row-link row-link--lg"
+                href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener' : undefined}
+              >
+                {link.label}
+                <Icon name={link.external ? 'arrow-up-right' : 'arrow-right'} size={14} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+    <div class="company-col company-news">
+      <Eyebrow class="c-eyebrow--sm">{news.title}</Eyebrow>
+      <ul class="news-list">
+        {news.items.map((item) => (
+          <li>
+            <a class="news-item" href={item.href}>
+              <time class="news-date" datetime={item.iso}>{item.date}</time>
+              <span class="news-title">{item.title}</span>
+              <Icon name="arrow-right" size={14} class="arrow" />
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a class="c-link" href="#">
+        {news.allLabel}
+        <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
+  </div>
+
+  <Fragment slot="aside">
+    <Eyebrow class="c-eyebrow--sm">{aside.kicker}</Eyebrow>
+    <address class="aside-address">
+      <span class="aside-title">{contact.company}</span>
+      <span class="address-row"><Icon name="map-pin" size={18} />{contact.street}, {contact.city}</span>
+      <a class="address-row" href={contact.phoneHref}><Icon name="phone" size={16} />{contact.phone}</a>
+      <a class="address-row" href={`mailto:${contact.email}`}><Icon name="mail" size={18} />{contact.email}</a>
+    </address>
+    <div class="aside-actions">
+      <Button href="#" variant="primary" size="sm" icon="arrow-right" block>{aside.primary}</Button>
+      <Button href="#" variant="outline" size="sm" block>{aside.secondary}</Button>
+    </div>
+  </Fragment>
+</MegaPanel>

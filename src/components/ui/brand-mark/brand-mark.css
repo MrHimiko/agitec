@@ -1,0 +1,10 @@
+.c-brand-mark {
+  flex: none;
+  width: 1.4666rem;
+  height: 0.6875rem;
+}
+
+.c-brand-mark--lg {
+  width: 4.4rem;
+  height: 2.0625rem;
+}

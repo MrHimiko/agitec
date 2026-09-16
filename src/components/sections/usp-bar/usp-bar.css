@@ -1,0 +1,111 @@
+.c-usp-bar {
+  box-shadow: inset 0 -1px 0 var(--color-line);
+}
+
+.c-usp-bar .list {
+  display: grid;
+  grid-template-columns: 449fr 461fr 450fr;
+}
+
+.c-usp-bar .item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: 7rem;
+}
+
+.c-usp-bar .item:first-child {
+  justify-content: flex-start;
+  padding-left: 1.5rem;
+}
+
+.c-usp-bar .item + .item {
+  border-left: 1px solid var(--color-line);
+}
+
+.c-usp-bar .icon-box {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-primary);
+  background: var(--color-surface);
+  transition: color 0.45s var(--ease-out);
+}
+
+.c-usp-bar .icon-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-primary);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.c-usp-bar .item:hover .icon-box {
+  color: var(--color-white);
+}
+
+.c-usp-bar .item:hover .icon-box::before {
+  transform: scaleY(1);
+}
+
+.c-usp-bar .label {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 1.0625rem;
+  line-height: 1.5rem;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+@media (max-width: 61.9375rem) {
+  .c-usp-bar .list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .c-usp-bar .item,
+  .c-usp-bar .item:first-child {
+    justify-content: flex-start;
+    height: 6rem;
+    padding: 0 1.25rem;
+  }
+
+  .c-usp-bar .item:first-child {
+    padding-left: 0;
+  }
+
+  .c-usp-bar .label {
+    white-space: normal;
+    font-size: 0.9375rem;
+    line-height: 1.25rem;
+  }
+}
+
+@media (max-width: 47.9375rem) {
+  .c-usp-bar .list {
+    grid-template-columns: 1fr;
+  }
+
+  .c-usp-bar .item,
+  .c-usp-bar .item:first-child {
+    height: auto;
+    padding: 1rem 0;
+  }
+
+  .c-usp-bar .item + .item {
+    border-left: 0;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .c-usp-bar .label {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,19 @@
+---
+import Icon from '../../ui/icon/Icon.astro';
+import { usps } from '../../../data/home.js';
+import './usp-bar.css';
+
+const { class: className } = Astro.props;
+---
+<section class:list={['c-usp-bar', className]} aria-label="Vorteile">
+  <div class="container">
+    <ul class="list" data-anim="stagger">
+      {usps.map((usp) => (
+        <li class="item" data-anim-item>
+          <span class="icon-box"><Icon name={usp.icon} size={24} /></span>
+          <span class="label">{usp.label}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

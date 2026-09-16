@@ -1,0 +1,27 @@
+---
+import Icon from '../icon/Icon.astro';
+import './drawer.css';
+
+const { id, size = 'md', class: className } = Astro.props;
+const hasFoot = Astro.slots.has('foot');
+---
+<div class:list={['c-drawer', `c-drawer--${size}`, className]} id={`drawer-${id}`} data-drawer={id} inert>
+  <div class="drawer-backdrop" data-drawer-close></div>
+  <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby={`drawer-${id}-title`}>
+    <header class="drawer-head">
+      <h2 class="drawer-title" id={`drawer-${id}-title`}><slot name="title" /></h2>
+      <slot name="head" />
+      <button class="drawer-close" type="button" aria-label="Schliessen" data-drawer-close>
+        <Icon name="close" size={20} />
+      </button>
+    </header>
+    <div class="drawer-body">
+      <slot />
+    </div>
+    {hasFoot && (
+      <footer class="drawer-foot">
+        <slot name="foot" />
+      </footer>
+    )}
+  </div>
+</div>

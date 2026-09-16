@@ -1,0 +1,35 @@
+---
+import Icon from '../../ui/icon/Icon.astro';
+import BrandMark from '../../ui/brand-mark/BrandMark.astro';
+import { groupBrands } from '../../../data/navigation.js';
+import './group-switcher.css';
+---
+<div class="c-group-switcher" data-group>
+  <button class="trigger" type="button" aria-expanded="false" aria-controls="group-popover" data-group-trigger>
+    AGI-Gruppe
+    <Icon name="chevron-down" size={10} class="chevron" />
+  </button>
+  <div class="popover" id="group-popover" data-group-popover>
+    <p class="popover-title">Die Marken der AGI-Gruppe</p>
+    <ul class="list">
+      {groupBrands.map((brand) => (
+        <li>
+          <a
+            class:list={['item', { 'is-current': brand.current }]}
+            href={brand.href}
+            aria-current={brand.current ? 'page' : undefined}
+            target={brand.external ? '_blank' : undefined}
+            rel={brand.external ? 'noopener' : undefined}
+          >
+            <span class="mark"><BrandMark /></span>
+            <span class="body">
+              <span class="name">{brand.name}</span>
+              <span class="meta">{brand.domain}{brand.note && <> · {brand.note}</>}</span>
+            </span>
+            {brand.current ? <span class="here">Sie sind hier</span> : <Icon name="arrow-up-right" size={16} class="ext" />}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

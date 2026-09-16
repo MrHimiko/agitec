@@ -1,0 +1,142 @@
+---
+import Default from '../layouts/Default.astro';
+import Button from '../components/ui/button/Button.astro';
+import Eyebrow from '../components/ui/eyebrow/Eyebrow.astro';
+import Icon from '../components/ui/icon/Icon.astro';
+import BrandMark from '../components/ui/brand-mark/BrandMark.astro';
+import Tabs from '../components/ui/tabs/Tabs.astro';
+import { icons } from '../components/ui/icon/icons.js';
+import '../components/styleguide/styleguide.css';
+
+const colors = [
+  { token: '--color-navy-900', hex: '#0E2230', use: 'Text, Headlines' },
+  { token: '--color-blue-600', hex: '#0069B3', use: 'Primary, CTA, Icons' },
+  { token: '--color-blue-700', hex: '#005691', use: 'Primary Hover' },
+  { token: '--color-blue-500', hex: '#4A9BD3', use: 'Akzent (Linie Hero)' },
+  { token: '--color-blue-400', hex: '#6F9DD3', use: 'Logo, Brand Mark' },
+  { token: '--color-blue-300', hex: '#A3BCE3', use: 'Logo, Topbar Icons' },
+  { token: '--color-gray-600', hex: '#5D646A', use: 'Navigation, UI Text' },
+  { token: '--color-gray-400', hex: '#9BA0A3', use: 'Meta, Subtext' },
+  { token: '--color-gray-300', hex: '#DEDEDE', use: 'Outline Button, Divider' },
+  { token: '--color-gray-200', hex: '#E4E4E4', use: 'Card Button Border' },
+  { token: '--color-gray-150', hex: '#EDEDED', use: 'Linien' },
+  { token: '--color-gray-100', hex: '#F7F7F7', use: 'Surface' },
+  { token: '--color-gray-50', hex: '#F9F9F9', use: 'Topbar' },
+  { token: '--color-white', hex: '#FFFFFF', use: 'Hintergrund' },
+];
+
+const type = [
+  { cls: 'fs-57 fw-500 font-heading', label: 'Display', spec: 'Archivo Medium · 57/62 · -3%', sample: 'Maximale Dämmwirkung.' },
+  { cls: 'fs-48 fw-500 font-heading', label: 'H2', spec: 'Archivo Medium · 48/55 · -2%', sample: 'Welche Dämmung passt?' },
+  { cls: 'fs-24 fw-500 font-heading', label: 'H3 / Card', spec: 'Archivo Medium · 24/24 · -2%', sample: 'Aerogel-Anwendungen' },
+  { cls: 'fs-17 fw-500 font-heading sg-tracking', label: 'USP', spec: 'Archivo Medium · 17/24 · -2%', sample: 'Teil der AGI-Gruppe – seit 1877' },
+  { cls: 'fs-17 text-muted', label: 'Body', spec: 'Archivo Regular · 17/26 · 70%', sample: 'Das Kompetenzzentrum für Aerogel und Dämmstoffe in der Schweiz und Liechtenstein.' },
+  { cls: 'fs-15 font-ui fw-500', label: 'Button / UI', spec: 'Geist Medium · 15/20', sample: 'Offerte anfragen' },
+  { cls: 'font-ui sg-nav', label: 'Navigation', spec: 'Geist Regular · 16', sample: 'Produkte  Anwendungen  Technologie' },
+  { cls: 'fs-13 font-ui text-gray-600', label: 'Topbar', spec: 'Geist Regular · 13/17', sample: 'Downloads & Datenblätter' },
+];
+---
+<Default title="Styleguide – AGITEC" pageClass="p-styleguide">
+  <div class="container c-styleguide">
+    <header class="sg-intro">
+      <Eyebrow>Styleguide</Eyebrow>
+      <h1 class="fs-57 fw-500 font-heading">AGITEC Design System</h1>
+      <p class="fs-17 text-muted">Tokens, Typografie und Komponenten aus dem Figma-Design. Klassen: <code>c-</code> Komponenten, <code>l-</code> Layouts, <code>p-</code> Seiten, Utilities wie <code>fs-48</code>, <code>fw-500</code>, <code>mb-24</code>.</p>
+    </header>
+
+    <section class="sg-section">
+      <h2 class="sg-title">Farben</h2>
+      <ul class="sg-colors">
+        {colors.map((c) => (
+          <li class="sg-color">
+            <span class="swatch" style={`background: var(${c.token})`}></span>
+            <span class="meta">
+              <code>{c.token}</code>
+              <span>{c.hex} · {c.use}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="sg-section">
+      <h2 class="sg-title">Typografie</h2>
+      <p class="sg-note fs-15 font-ui">Archivo (Headlines, Fliesstext) und Geist (UI, Navigation, Buttons). Selbst gehostet über @fontsource-variable.</p>
+      <ul class="sg-type">
+        {type.map((t) => (
+          <li class="sg-type-row">
+            <span class="sg-type-meta">
+              <strong>{t.label}</strong>
+              <code>.{t.cls.split(' ').join(' .')}</code>
+              <span>{t.spec}</span>
+            </span>
+            <span class={t.cls}>{t.sample}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="sg-section">
+      <h2 class="sg-title">Buttons</h2>
+      <div class="sg-row sg-row--surface">
+        <Button href="#" variant="primary" icon="arrow-right">Produkte entdecken</Button>
+        <Button href="#" variant="white">Anwendungs-Finder</Button>
+        <Button href="#" variant="outline" size="nav">Shop</Button>
+        <Button href="#" variant="primary" size="nav">Offerte anfragen</Button>
+      </div>
+      <div class="sg-row sg-row--narrow">
+        <Button href="#" variant="line" size="sm" icon="arrow-right" block>Lösungen ansehen</Button>
+      </div>
+      <p class="sg-note fs-15 font-ui"><code>.c-btn</code> + <code>--primary</code> <code>--white</code> <code>--outline</code> <code>--line</code> · Grössen <code>--md</code> (52) <code>--nav</code> (45) <code>--sm</code> (44) · <code>--block</code></p>
+    </section>
+
+    <section class="sg-section">
+      <h2 class="sg-title">Elemente</h2>
+      <div class="sg-grid">
+        <div class="sg-card">
+          <span class="sg-label">Eyebrow · .c-eyebrow</span>
+          <Eyebrow>Lösungsfinder</Eyebrow>
+          <Eyebrow class="c-eyebrow--sm">Produkte · 6 Produktgruppen</Eyebrow>
+        </div>
+        <div class="sg-card">
+          <span class="sg-label">Brand Mark · .c-brand-mark</span>
+          <div class="sg-row"><BrandMark /><BrandMark size="lg" /></div>
+        </div>
+        <div class="sg-card sg-card--surface">
+          <span class="sg-label">Tabs · .c-tabs</span>
+          <Tabs tabs={[{ id: 'a', label: 'Nach Anwendung' }, { id: 'b', label: 'Nach Produktgruppe' }]} group="sg" label="Beispiel" />
+        </div>
+        <div class="sg-card">
+          <span class="sg-label">Link · .c-link</span>
+          <a class="c-link" href="#">Alle Produkte ansehen <Icon name="arrow-right" size={16} /></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sg-section">
+      <h2 class="sg-title">Icons · .c-icon</h2>
+      <ul class="sg-icons">
+        {Object.keys(icons).map((name) => (
+          <li class="sg-icon">
+            <Icon name={name} size={24} />
+            <code>{name}</code>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="sg-section">
+      <h2 class="sg-title">Layout</h2>
+      <ul class="sg-specs font-ui fs-15">
+        <li><code>--container-max</code> 1360px · Padding 40 / 24 / 16px</li>
+        <li>Breakpoints desktop-first: 1360 · 1280 · 1200 (Burger) · 991 · 767 · 480</li>
+        <li>Header 114px (Topbar 38 + Navbar 76), mobil 72px</li>
+        <li>Ecken: 0, Ausnahme Dots und Hotspot 2px</li>
+      </ul>
+    </section>
+  </div>
+</Default>
+
+<script>
+  import '../components/ui/tabs/tabs.js';
+</script>

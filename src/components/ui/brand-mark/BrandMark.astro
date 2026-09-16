@@ -1,0 +1,10 @@
+---
+import './brand-mark.css';
+
+const { class: className, size = 'sm' } = Astro.props;
+---
+<svg class:list={['c-brand-mark', `c-brand-mark--${size}`, className]} viewBox="0 0 24 11" fill="none" aria-hidden="true">
+  <path d="M5.73245 0H10.2667L4.5206 11H0L5.73245 0Z" fill="#0069B3" />
+  <path d="M12.3321 0H16.8663L11.1202 11H6.59961L12.3321 0Z" fill="#6F9DD3" />
+  <path d="M18.9317 0H23.4659L17.7198 11H13.1992L18.9317 0Z" fill="#A3BCE3" />
+</svg>

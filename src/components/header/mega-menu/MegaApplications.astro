@@ -1,0 +1,147 @@
+---
+import MegaPanel from './MegaPanel.astro';
+import Icon from '../../ui/icon/Icon.astro';
+import Eyebrow from '../../ui/eyebrow/Eyebrow.astro';
+import Button from '../../ui/button/Button.astro';
+import { Image } from 'astro:assets';
+import heroImage from '../../../assets/images/hero-window-reveal.jpg';
+import systemImage from '../../../assets/images/app-system.jpg';
+import vakuumImage from '../../../assets/images/app-vakuum.jpg';
+import kernImage from '../../../assets/images/app-kern.jpg';
+import { applications, contact } from '../../../data/navigation.js';
+
+const images = { system: systemImage, vakuum: vakuumImage, kern: kernImage };
+const { finder, items, aside } = applications;
+const pad = (n) => String(n).padStart(2, '0');
+---
+<MegaPanel id="applications" label="Anwendungen">
+  <div class="apps-layout" data-apps>
+    <div class="apps-nav" role="tablist" aria-orientation="vertical" aria-label="Anwendungsbereiche">
+      <a
+        class="apps-tab apps-tab--finder"
+        href="#"
+        role="tab"
+        id="apps-tab-finder"
+        aria-selected="false"
+        aria-controls="apps-panel-finder"
+        data-apps-tab="finder"
+      >
+        <span class="tab-icon"><Icon name="compass" size={20} /></span>
+        <span class="tab-body">
+          <span class="tab-title">{finder.title}</span>
+          <span class="tab-sub">{finder.sub}</span>
+        </span>
+        <Icon name="arrow-right" size={16} class="tab-arrow" />
+      </a>
+      {items.map((item, i) => (
+        <a
+          class:list={['apps-tab', { 'is-active': i === 0 }]}
+          href="#"
+          role="tab"
+          id={`apps-tab-${item.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-controls={`apps-panel-${item.id}`}
+          data-apps-tab={item.id}
+        >
+          <span class="tab-body">
+            <span class="tab-title">{item.title}</span>
+            <span class="tab-sub">{item.sub}</span>
+          </span>
+          <Icon name="chevron-right" size={16} class="tab-arrow" />
+        </a>
+      ))}
+      <a class="c-link apps-all" href="#">
+        {applications.allLabel}
+        <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
+
+    <div class="apps-panels">
+      <div class="apps-panel" id="apps-panel-finder" role="tabpanel" aria-labelledby="apps-tab-finder" data-apps-panel="finder" hidden>
+        <div class="panel-head">
+          <Eyebrow class="c-eyebrow--sm">{finder.title}</Eyebrow>
+        </div>
+        <div class="panel-intro">
+          <div class="intro-media">
+            <Image src={heroImage} alt="" widths={[480, 720]} sizes="240px" loading="lazy" />
+          </div>
+          <div class="intro-body">
+            <p class="intro-text">{finder.text}</p>
+            <ol class="finder-steps">
+              {finder.steps.map((step, i) => (
+                <li class="step">
+                  <span class="step-index">{pad(i + 1)}</span>
+                  <span class="step-label">{step}</span>
+                </li>
+              ))}
+            </ol>
+            <Button href="#" variant="primary" size="sm" icon="arrow-right">{finder.cta}</Button>
+          </div>
+        </div>
+      </div>
+
+      {items.map((item, i) => (
+        <div
+          class:list={['apps-panel', { 'is-active': i === 0 }]}
+          id={`apps-panel-${item.id}`}
+          role="tabpanel"
+          aria-labelledby={`apps-tab-${item.id}`}
+          data-apps-panel={item.id}
+          hidden={i !== 0}
+        >
+          <div class="panel-head">
+            <Eyebrow class="c-eyebrow--sm">{item.title}</Eyebrow>
+            <a class="c-link" href="#">
+              Übersicht
+              <Icon name="arrow-right" size={16} />
+            </a>
+          </div>
+          {item.links ? (
+            <ul class="apps-links">
+              {item.links.map((link, n) => (
+                <li>
+                  <a class="apps-link" href="#">
+                    <span class="index">{pad(n + 1)}</span>
+                    <span class="label">{link}</span>
+                    <Icon name="arrow-right" size={14} class="arrow" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div class="panel-intro">
+              <div class="intro-media">
+                <Image src={images[item.image]} alt="" widths={[480, 668]} sizes="240px" loading="lazy" />
+              </div>
+              <div class="intro-body">
+                <blockquote class="intro-quote">{item.quote}</blockquote>
+                <a class="c-link" href="#">
+                  {item.cta}
+                  <Icon name="arrow-right" size={16} />
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <Fragment slot="aside">
+    <Eyebrow class="c-eyebrow--sm">{aside.kicker}</Eyebrow>
+    <div class="aside-icon"><Icon name="headset" size={24} /></div>
+    <p class="aside-title">{aside.title}</p>
+    <p class="aside-text">{aside.text}</p>
+    <div class="aside-actions">
+      <Button href="#" variant="primary" size="sm" icon="arrow-right" block>{aside.primary}</Button>
+      <a class="c-btn c-btn--outline c-btn--sm c-btn--block aside-phone" href={contact.phoneHref}>
+        <Icon name="phone" size={16} />
+        <span class="text">{contact.phone}</span>
+      </a>
+    </div>
+    <a class="c-link" href="#">
+      {aside.link}
+      <Icon name="arrow-right" size={16} />
+    </a>
+  </Fragment>
+</MegaPanel>

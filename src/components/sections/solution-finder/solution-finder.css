@@ -1,0 +1,195 @@
+.c-solution-finder {
+  padding: 8.5rem 0 11.0625rem;
+}
+
+.c-solution-finder .head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  max-width: 42.75rem;
+}
+
+.c-solution-finder .rule {
+  height: 1px;
+  margin-top: 2rem;
+  background: var(--color-line);
+  transform-origin: left center;
+}
+
+.c-solution-finder .intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.c-solution-finder .lead {
+  max-width: 36.4375rem;
+}
+
+.c-solution-finder .panel {
+  margin-top: 2rem;
+}
+
+.c-solution-finder .cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.c-solution-finder .cards--products {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.c-app-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.c-app-card .media {
+  position: relative;
+  display: block;
+  aspect-ratio: 334 / 360;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.c-app-card .media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-out);
+}
+
+.c-app-card:hover .media img {
+  transform: scale(1.04);
+}
+
+.c-app-card .body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 1.25rem;
+  padding: 2rem 0.5rem;
+}
+
+.c-app-card .card-text {
+  flex: 1;
+}
+
+.c-app-card .c-btn,
+.c-group-card .c-btn {
+  flex: none;
+}
+
+.c-app-card:hover .c-btn,
+.c-group-card:hover .c-btn {
+  color: var(--btn-fill-color);
+  border-color: var(--color-primary);
+}
+
+.c-app-card:hover .c-btn::before,
+.c-group-card:hover .c-btn::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.c-app-card:hover .btn-icon,
+.c-group-card:hover .btn-icon {
+  transform: translateX(0.25rem);
+}
+
+.c-group-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 100%;
+  padding: 2rem 1.5rem 1.5rem;
+  background: var(--color-surface);
+  transition: background-color 0.3s var(--ease-out);
+}
+
+.c-group-card:hover {
+  background: var(--color-gray-50);
+}
+
+.c-group-card .group-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.c-group-card .group-count {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-gray-600);
+}
+
+.c-group-card .group-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.375rem;
+  padding-left: 0.875rem;
+  border-left: 1px solid var(--color-gray-200);
+}
+
+.c-group-card .group-item {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--color-gray-600);
+}
+
+.c-group-card .c-btn--line {
+  --btn-bg: var(--color-white);
+}
+
+@media (max-width: 75rem) {
+  .c-solution-finder {
+    padding: 6.5rem 0 8rem;
+  }
+}
+
+@media (max-width: 61.9375rem) {
+  .c-solution-finder .intro {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .c-solution-finder .cards,
+  .c-solution-finder .cards--products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 1rem;
+  }
+}
+
+@media (max-width: 47.9375rem) {
+  .c-solution-finder {
+    padding: 4.5rem 0 5rem;
+  }
+
+  .c-solution-finder .head {
+    gap: 1.25rem;
+  }
+
+  .c-app-card .body {
+    gap: 1rem;
+    padding: 1.5rem 0 1rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .c-solution-finder .cards,
+  .c-solution-finder .cards--products {
+    grid-template-columns: 1fr;
+    row-gap: 1.5rem;
+  }
+
+  .c-app-card .media {
+    aspect-ratio: 4 / 3;
+  }
+}

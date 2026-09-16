@@ -1,0 +1,110 @@
+---
+import Icon from '../../ui/icon/Icon.astro';
+import Button from '../../ui/button/Button.astro';
+import GroupSwitcher from '../group-switcher/GroupSwitcher.astro';
+import MegaProducts from '../mega-menu/MegaProducts.astro';
+import MegaApplications from '../mega-menu/MegaApplications.astro';
+import MegaTechnology from '../mega-menu/MegaTechnology.astro';
+import MegaCompany from '../mega-menu/MegaCompany.astro';
+import MobileMenu from '../mobile-menu/MobileMenu.astro';
+import logo from '../../../assets/brand/logo-agitec.svg?raw';
+import { mainNav, topbarLinks, contact, languages } from '../../../data/navigation.js';
+import './site-header.css';
+import '../mega-menu/mega-menu.css';
+
+const megaIds = ['products', 'applications', 'technology', 'company'];
+const currentLang = languages.find((l) => l.current);
+---
+<header class="c-site-header" data-header>
+  <div class="topbar-bg" aria-hidden="true"></div>
+  <div class="container header-inner">
+    <a class="logo" href="/" aria-label="AGITEC AG – Startseite" set:html={logo} />
+
+    <div class="topbar">
+      <div class="topbar-left">
+        <GroupSwitcher />
+        {topbarLinks.map((link) => (
+          <a class="topbar-link" href={link.href}>{link.label}</a>
+        ))}
+      </div>
+      <div class="topbar-right">
+        <a class="topbar-meta" href={contact.phoneHref}>
+          <Icon name="phone" width={16.22} height={16.38} class="meta-icon" />
+          {contact.phone}
+        </a>
+        <div class="lang-switch" data-lang>
+          <button class="topbar-meta lang-trigger" type="button" aria-expanded="false" aria-controls="lang-list" aria-label="Sprache wählen" data-lang-trigger>
+            <Icon name="globe" size={18} class="meta-icon" />
+            {currentLang.code}
+          </button>
+          <ul class="lang-list" id="lang-list">
+            {languages.map((lang) => (
+              <li>
+                <a class:list={['lang-option', { 'is-current': lang.current }]} href={lang.href} lang={lang.code.toLowerCase()} aria-current={lang.current ? 'true' : undefined}>
+                  <span class="code">{lang.code}</span>{lang.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <nav class="menu" aria-label="Hauptnavigation">
+      <ul class="menu-list">
+        {mainNav.map((item) => (
+          <li class:list={['menu-item', { 'has-mega': megaIds.includes(item.id) }]}>
+            {megaIds.includes(item.id) ? (
+              <button
+                class="menu-link"
+                type="button"
+                aria-expanded="false"
+                aria-controls={`mega-${item.id}`}
+                data-mega-trigger={item.id}
+              >
+                {item.label}
+                <Icon name="chevron-down" size={14} class="chevron" />
+              </button>
+            ) : (
+              <a class="menu-link" href={item.href} data-mega-close>{item.label}</a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="actions">
+      <div class="icon-group">
+        <button class="icon-btn" type="button" aria-label="Suche öffnen" aria-haspopup="dialog" aria-expanded="false" aria-controls="drawer-search" data-drawer-open="search">
+          <Icon name="search" size={19} />
+        </button>
+        <span class="divider" aria-hidden="true"></span>
+        <button class="icon-btn cart-btn" type="button" aria-label="Warenkorb öffnen" aria-haspopup="dialog" aria-expanded="false" aria-controls="drawer-cart" data-drawer-open="cart">
+          <Icon name="cart" width={20} height={21} />
+          <span class="badge" data-cart-count>2</span>
+        </button>
+      </div>
+      <div class="buttons">
+        <Button href="#" variant="outline" size="nav" class="shop-btn">Shop</Button>
+        <Button href="#" variant="primary" size="nav" class="quote-btn">Offerte anfragen</Button>
+      </div>
+      <button class="burger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu" data-burger>
+        <span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mega-layer" data-mega-layer>
+    <MegaProducts />
+    <MegaApplications />
+    <MegaTechnology />
+    <MegaCompany />
+  </div>
+
+  <MobileMenu />
+</header>
+<div class="c-header-scrim" data-scrim aria-hidden="true"></div>
+
+<script>
+  import './site-header.js';
+</script>

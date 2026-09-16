@@ -1,0 +1,13 @@
+---
+const { id, label } = Astro.props;
+---
+<div class="c-mega" id={`mega-${id}`} data-mega-panel={id} role="region" aria-label={label}>
+  <div class="container mega-inner">
+    <div class="mega-main">
+      <slot />
+    </div>
+    <aside class="mega-aside">
+      <slot name="aside" />
+    </aside>
+  </div>
+</div>

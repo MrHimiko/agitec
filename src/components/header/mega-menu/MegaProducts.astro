@@ -1,0 +1,61 @@
+---
+import MegaPanel from './MegaPanel.astro';
+import MegaHead from './MegaHead.astro';
+import Icon from '../../ui/icon/Icon.astro';
+import Eyebrow from '../../ui/eyebrow/Eyebrow.astro';
+import Button from '../../ui/button/Button.astro';
+import { Image } from 'astro:assets';
+import finderImage from '../../../assets/images/app-aerogel.jpg';
+import { products } from '../../../data/navigation.js';
+
+const { aside } = products;
+---
+<MegaPanel id="products" label="Produkte">
+  <MegaHead title={products.title} meta={products.meta} link={products.allLabel} />
+  <div class="products-grid">
+    {products.groups.map((group) => (
+      <div class="product-group">
+        <a class="group-title" href="#">
+          <span>{group.title}</span>
+          <span class="count">{group.count}</span>
+        </a>
+        <ul class="group-links">
+          {group.links.map((link) => (
+            <li><a class="sub-link" href="#">{link}</a></li>
+          ))}
+        </ul>
+        {group.more && (
+          <a class="c-link c-link--sm" href="#">
+            {group.more}
+            <Icon name="arrow-right" size={14} />
+          </a>
+        )}
+      </div>
+    ))}
+  </div>
+  <div class="mega-foot">
+    {products.footer.map((item) => (
+      <a class="foot-link" href={item.href}>
+        <Icon name={item.icon} size={18} />
+        {item.label}
+      </a>
+    ))}
+  </div>
+
+  <Fragment slot="aside">
+    <Eyebrow class="c-eyebrow--sm">{aside.kicker}</Eyebrow>
+    <div class="aside-media">
+      <Image src={finderImage} alt="" widths={[320, 640]} sizes="320px" loading="lazy" />
+    </div>
+    <p class="aside-title">{aside.title}</p>
+    <p class="aside-text">{aside.text}</p>
+    <div class="aside-actions">
+      <Button href="#" variant="primary" size="sm" icon="arrow-right" block>{aside.primary}</Button>
+      <Button href="#" variant="outline" size="sm" block>{aside.secondary}</Button>
+    </div>
+    <a class="c-link" href="#">
+      {aside.link}
+      <Icon name="arrow-right" size={16} />
+    </a>
+  </Fragment>
+</MegaPanel>

@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/header/site-header/SiteHeader.astro';
+import SearchDrawer from '../components/shop/search-drawer/SearchDrawer.astro';
+import CartDrawer from '../components/shop/cart-drawer/CartDrawer.astro';
+
+const {
+  title = 'AGITEC AG – Aerogel & Hochleistungsdämmung',
+  description = 'Das Kompetenzzentrum für Aerogel und Dämmstoffe in der Schweiz und Liechtenstein – mit Beratung, Datenblättern und Online-Shop.',
+  pageClass,
+} = Astro.props;
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#ffffff" />
+    <script is:inline>
+      (function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var root = document.documentElement;
+        root.classList.add('has-anim');
+        setTimeout(function () {
+          if (!root.classList.contains('anim-ready')) root.classList.remove('has-anim');
+        }, 3000);
+      })();
+    </script>
+  </head>
+  <body class="l-default">
+    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+    <SiteHeader />
+    <main id="main" class:list={['l-default__main', pageClass]}>
+      <slot />
+    </main>
+    <SearchDrawer />
+    <CartDrawer />
+    <script>
+      import '../components/ui/drawer/drawer.js';
+      import '../scripts/animations.js';
+    </script>
+  </body>
+</html>

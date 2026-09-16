@@ -357,7 +357,7 @@
 /* Applications */
 .c-mega .apps-layout {
   display: grid;
-  grid-template-columns: 19.5rem minmax(0, 1fr);
+  grid-template-columns: 20.5rem minmax(0, 1fr);
   gap: 3rem;
 }
 
@@ -435,8 +435,14 @@
 }
 
 .c-mega .apps-tab--finder {
+  gap: 0.75rem;
   margin-bottom: 0.75rem;
+  padding-inline: 0.875rem;
   border: 1px solid var(--color-border);
+}
+
+.c-mega .apps-tab--finder .tab-sub {
+  white-space: nowrap;
 }
 
 .c-mega .apps-tab--finder::before {
@@ -534,7 +540,7 @@
 
 .c-mega .panel-intro {
   display: grid;
-  grid-template-columns: 15rem minmax(0, 1fr);
+  grid-template-columns: 14rem minmax(0, 1fr);
   gap: 2rem;
   margin-top: 1.5rem;
 }
@@ -543,6 +549,11 @@
   aspect-ratio: 4 / 3.4;
   overflow: hidden;
   background: var(--color-surface);
+}
+
+.c-mega .panel-intro--finder .intro-media {
+  aspect-ratio: auto;
+  min-height: 100%;
 }
 
 .c-mega .intro-body {
@@ -567,47 +578,57 @@
 }
 
 .c-mega .finder-steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  margin: 1.25rem 0 1.5rem;
-  counter-reset: none;
+  margin: 1.25rem 0 1.75rem;
 }
 
 .c-mega .step {
   position: relative;
-  padding: 0.875rem 1rem;
-  border: 1px solid var(--color-line);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
 }
 
 .c-mega .step:not(:last-child)::after {
   content: "";
   position: absolute;
-  top: 50%;
-  right: -0.4375rem;
-  z-index: 1;
-  width: 0.375rem;
-  height: 0.375rem;
-  background: var(--color-primary);
-  transform: translateY(-50%);
+  left: 1rem;
+  top: calc(50% + 1rem);
+  height: calc(100% - 2rem);
+  width: 1px;
+  background: repeating-linear-gradient(to bottom, var(--color-blue-300) 0 3px, transparent 3px 6px);
 }
 
 .c-mega .step-index {
-  display: block;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
   font-family: var(--font-ui);
+  font-weight: 500;
   font-size: 0.75rem;
-  line-height: 1rem;
+  font-variant-numeric: tabular-nums;
   color: var(--color-primary);
+  background: var(--color-surface);
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.c-mega .step:first-child .step-index,
+.c-mega .step:hover .step-index {
+  color: var(--color-white);
+  background: var(--color-primary);
 }
 
 .c-mega .step-label {
-  display: block;
-  margin-top: 0.25rem;
   font-family: var(--font-heading);
   font-weight: 500;
-  font-size: 0.9375rem;
-  line-height: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.375rem;
+  letter-spacing: -0.01em;
   color: var(--color-navy-900);
 }
 
@@ -752,8 +773,10 @@
     grid-template-columns: 1fr;
   }
 
-  .c-mega .intro-media {
+  .c-mega .intro-media,
+  .c-mega .panel-intro--finder .intro-media {
     aspect-ratio: 16 / 7;
+    min-height: 0;
   }
 
   .c-mega .tech-grid {

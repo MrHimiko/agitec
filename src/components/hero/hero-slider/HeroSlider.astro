@@ -8,6 +8,7 @@ import aerogelReveal from '../../../assets/images/hero-aerogel-reveal.jpg';
 import wdvsBoard from '../../../assets/images/hero-wdvs-board.jpg';
 import plasterMesh from '../../../assets/images/hero-plaster-mesh.jpg';
 import { heroSlides } from '../../../data/home.js';
+import '../../ui/glass/glass.css';
 import './hero-slider.css';
 
 const images = {
@@ -127,24 +128,28 @@ const slideStyle = (slide) => {
 
   {isSlider && (
     <div class="tabs-bar" data-anim-hero="tabs">
+      <span class="c-glass tabs-glass" aria-hidden="true" data-glass='{"edges":"top","bezel":30,"thickness":110,"refraction":1.2,"blur":1.2,"saturate":1.4,"spec":0.6}'></span>
       <div class="container">
-        <div class="tabs" role="tablist" aria-label="Themen">
-          {heroSlides.map((slide, i) => (
-            <button
-              class:list={['tab', { 'is-active': i === 0 }]}
-              type="button"
-              role="tab"
-              id={`hero-tab-${slide.id}`}
-              aria-selected={i === 0 ? 'true' : 'false'}
-              aria-controls={`hero-slide-${slide.id}`}
-              tabindex={i === 0 ? undefined : '-1'}
-              data-hero-tab={i}
-            >
-              <span class="bar" aria-hidden="true"><span class="fill"></span></span>
-              <span class="num">{pad(i + 1)}</span>
-              <span class="label">{slide.tab}</span>
-            </button>
-          ))}
+        <div class="tabs-shell">
+          <span class="c-glass tabs-indicator" aria-hidden="true" data-glass='{"bezel":16,"thickness":70,"refraction":1.1,"blur":0.6,"saturate":1.5,"spec":0.6}' data-hero-indicator></span>
+          <div class="tabs" role="tablist" aria-label="Themen">
+            {heroSlides.map((slide, i) => (
+              <button
+                class:list={['tab', { 'is-active': i === 0 }]}
+                type="button"
+                role="tab"
+                id={`hero-tab-${slide.id}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                aria-controls={`hero-slide-${slide.id}`}
+                tabindex={i === 0 ? undefined : '-1'}
+                data-hero-tab={i}
+              >
+                <span class="num">{pad(i + 1)}</span>
+                <span class="label">{slide.tab}</span>
+                <span class="bar" aria-hidden="true"><span class="fill"></span></span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
+import { initGlass } from '../../ui/glass/liquid-glass.js';
 
 gsap.registerPlugin(SplitText);
 
@@ -13,6 +14,7 @@ function initHero(root) {
   const slides = [...root.querySelectorAll('[data-hero-slide]')];
   const tabs = [...root.querySelectorAll('[data-hero-tab]')];
   const tabsBar = root.querySelector('.tabs-bar');
+  const indicator = root.querySelector('[data-hero-indicator]');
   const decor = root.querySelector('.decor');
   const hotspot = root.querySelector('[data-hero-hotspot]');
   const lineH = root.querySelector('[data-line-h]');
@@ -86,6 +88,16 @@ function initHero(root) {
 
   gsap.set(slides.slice(1), { autoAlpha: 0 });
 
+  const moveIndicator = () => {
+    const tab = tabs[state.index];
+    if (!indicator || !tab) return;
+    indicator.style.setProperty('--ind-x', `${tab.offsetLeft + tab.parentElement.offsetLeft}px`);
+    indicator.style.setProperty('--ind-w', `${tab.offsetWidth}px`);
+  };
+  moveIndicator();
+  new ResizeObserver(moveIndicator).observe(tabsBar);
+  initGlass(root);
+
   function setTabs(index) {
     tabs.forEach((tab, i) => {
       const on = i === index;
@@ -146,6 +158,7 @@ function initHero(root) {
 
     setTabs(next);
     state.index = next;
+    moveIndicator();
     const target = anchorOf(to);
 
     const toTitle = part(to, 'title');

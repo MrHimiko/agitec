@@ -1,6 +1,6 @@
 .c-hero-slider {
   --hero-min: calc(100vh - var(--header-height));
-  --tabs-h: 0rem;
+  --tabs-space: 0rem;
   position: relative;
   overflow: hidden;
   color: var(--color-navy-900);
@@ -15,6 +15,7 @@
 
 .c-hero-slider.is-slider {
   --tabs-h: 4.75rem;
+  --tabs-space: var(--tabs-h);
 }
 
 .c-hero-slider .slides {
@@ -79,7 +80,7 @@
   gap: 3rem;
   min-height: max(var(--hero-min), 32rem);
   padding-top: 4.5rem;
-  padding-bottom: calc(2.6875rem + var(--tabs-h));
+  padding-bottom: calc(2.6875rem + var(--tabs-space));
 }
 
 .c-hero-slider .head {
@@ -178,7 +179,7 @@
   }
 }
 
-/* Topic tabs */
+/* Topic tabs on liquid glass, full width at the bottom of the hero */
 .c-hero-slider .tabs-bar {
   position: absolute;
   left: 0;
@@ -186,16 +187,33 @@
   bottom: 0;
   z-index: 4;
   height: var(--tabs-h);
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(18px) saturate(1.3);
-  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+}
+
+.c-hero-slider .tabs-glass {
+  position: absolute;
+  inset: 0;
+  --glass-tint: rgba(255, 255, 255, 0.16);
+}
+
+.c-hero-slider .tabs-shell {
+  position: relative;
+  height: var(--tabs-h);
+}
+
+.c-hero-slider .tabs-indicator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--ind-x, 0);
+  width: var(--ind-w, 0);
+  --glass-tint: rgba(255, 255, 255, 0.4);
+  transition: left 0.7s var(--ease-out), width 0.7s var(--ease-out);
 }
 
 .c-hero-slider .tabs {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  column-gap: 1.5rem;
-  height: var(--tabs-h);
 }
 
 .c-hero-slider .tab {
@@ -203,38 +221,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.25rem;
+  gap: 0.125rem;
   min-width: 0;
-  padding-top: 0.25rem;
+  height: var(--tabs-h);
+  padding: 0.125rem 1.5rem 0;
   text-align: left;
-}
-
-.c-hero-slider .bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 2px;
-  overflow: hidden;
-  background: rgba(14, 34, 48, 0.12);
-  transition: background-color 0.3s;
-}
-
-.c-hero-slider .fill {
-  position: absolute;
-  inset: 0;
-  background: var(--color-primary);
-  transform: scaleX(0);
-  transform-origin: left center;
 }
 
 .c-hero-slider .num {
   font-family: var(--font-ui);
+  font-weight: 500;
   font-size: 0.75rem;
   line-height: 1rem;
   font-variant-numeric: tabular-nums;
-  color: var(--color-gray-400);
-  transition: color 0.3s;
+  color: var(--color-navy-900);
+  opacity: 0.55;
+  transition: color 0.3s, opacity 0.3s;
 }
 
 .c-hero-slider .label {
@@ -247,17 +249,33 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   color: var(--color-navy-900);
-  opacity: 0.5;
+  opacity: 0.7;
   transition: opacity 0.3s, transform 0.4s var(--ease-out);
 }
 
-.c-hero-slider .tab:hover .label {
-  opacity: 0.85;
-  transform: translateX(0.25rem);
+.c-hero-slider .bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  overflow: hidden;
+  background: rgba(14, 34, 48, 0.1);
+  opacity: 0;
+  transition: opacity 0.4s;
 }
 
-.c-hero-slider .tab:hover .bar {
-  background: rgba(14, 34, 48, 0.24);
+.c-hero-slider .fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.c-hero-slider .tab:hover .label {
+  opacity: 1;
+  transform: translateX(0.1875rem);
 }
 
 .c-hero-slider .tab.is-active .label {
@@ -267,6 +285,15 @@
 
 .c-hero-slider .tab.is-active .num {
   color: var(--color-primary);
+  opacity: 1;
+}
+
+.c-hero-slider .tab.is-active .bar {
+  opacity: 1;
+}
+
+.c-hero-slider .tab:focus-visible {
+  outline-offset: -2px;
 }
 
 @media (max-width: 75rem) {
@@ -291,11 +318,11 @@
 
   .c-hero-slider .content {
     padding-top: 3.5rem;
-    padding-bottom: calc(3rem + var(--tabs-h));
+    padding-bottom: calc(3rem + var(--tabs-space));
   }
 
-  .c-hero-slider .tabs {
-    column-gap: 1rem;
+  .c-hero-slider .tab {
+    padding-inline: 1rem;
   }
 
   .c-hero-slider .label {
@@ -315,7 +342,7 @@
 
   .c-hero-slider .content {
     padding-top: 2.5rem;
-    padding-bottom: calc(2rem + var(--tabs-h));
+    padding-bottom: calc(1.5rem + var(--tabs-space));
   }
 
   .c-hero-slider .foot {
@@ -335,8 +362,9 @@
     justify-content: center;
   }
 
-  .c-hero-slider .tabs {
-    column-gap: 0.5rem;
+  .c-hero-slider .tab {
+    align-items: center;
+    padding: 0;
   }
 
   .c-hero-slider .label {
@@ -346,4 +374,6 @@
   .c-hero-slider .num {
     font-size: 0.8125rem;
   }
+
+
 }

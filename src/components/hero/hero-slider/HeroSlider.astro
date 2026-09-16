@@ -3,97 +3,149 @@ import { Image } from 'astro:assets';
 import Button from '../../ui/button/Button.astro';
 import BrandMark from '../../ui/brand-mark/BrandMark.astro';
 import windowReveal from '../../../assets/images/hero-window-reveal.jpg';
+import vipPanels from '../../../assets/images/hero-vip-panels.jpg';
+import aerogelReveal from '../../../assets/images/hero-aerogel-reveal.jpg';
+import wdvsBoard from '../../../assets/images/hero-wdvs-board.jpg';
+import plasterMesh from '../../../assets/images/hero-plaster-mesh.jpg';
 import { heroSlides } from '../../../data/home.js';
 import './hero-slider.css';
 
-const images = { 'window-reveal': windowReveal };
+const images = {
+  'window-reveal': windowReveal,
+  'vip-panels': vipPanels,
+  'aerogel-reveal': aerogelReveal,
+  'wdvs-board': wdvsBoard,
+  'plaster-mesh': plasterMesh,
+};
 const { class: className } = Astro.props;
 const isSlider = heroSlides.length > 1;
+const pad = (n) => String(n).padStart(2, '0');
+
+const slideStyle = (slide) => {
+  const img = images[slide.image];
+  return [
+    `--ar: ${(img.width / img.height).toFixed(4)}`,
+    `--fx: ${slide.focus[0]}`,
+    `--fy: ${slide.focus[1]}`,
+    `--ax-pct: ${slide.anchor.x[0]}`,
+    `--ax-px: ${slide.anchor.x[1]}`,
+    `--ay-pct: ${slide.anchor.y[0]}`,
+    `--ay-px: ${slide.anchor.y[1]}`,
+    `--min-w: ${slide.zoom ?? 100}`,
+  ].join('; ');
+};
 ---
 <section
-  class:list={['c-hero-slider', className]}
+  class:list={['c-hero-slider', { 'is-slider': isSlider }, className]}
   aria-roledescription={isSlider ? 'Karussell' : undefined}
   aria-label="Highlights"
   data-hero
 >
   <div class="slides">
-    {heroSlides.map((slide, i) => (
-      <div
-        class:list={['slide', { 'is-active': i === 0 }]}
-        role={isSlider ? 'group' : undefined}
-        aria-roledescription={isSlider ? 'Folie' : undefined}
-        aria-label={isSlider ? `${i + 1} von ${heroSlides.length}` : undefined}
-        aria-hidden={i === 0 ? undefined : 'true'}
-        data-hero-slide
-      >
-        <div class="media" aria-hidden="true" data-anim-hero={i === 0 ? "media" : undefined}>
-          <Image
-            src={images[slide.image]}
-            alt=""
-            widths={[768, 1200, 1566]}
-            sizes="128vw"
-            loading={i === 0 ? 'eager' : 'lazy'}
-            fetchpriority={i === 0 ? 'high' : undefined}
-            quality={90}
-          />
-          <span class="overlay"></span>
-        </div>
-        <div class="container content">
-          <div class="head">
-            <p class="eyebrow" data-anim-hero={i === 0 ? "eyebrow" : undefined}>
-              <BrandMark />
-              <span>{slide.eyebrow}</span>
-            </p>
-            {i === 0 ? (
-              <h1 class="title fs-57 fw-500 font-heading" data-anim-hero="title">{slide.title[0]}<br />{slide.title[1]}</h1>
-            ) : (
-              <p class="title fs-57 fw-500 font-heading">{slide.title[0]}<br />{slide.title[1]}</p>
-            )}
+    {heroSlides.map((slide, i) => {
+      const img = images[slide.image];
+      return (
+        <div
+          class:list={['slide', { 'is-active': i === 0 }]}
+          id={`hero-slide-${slide.id}`}
+          style={slideStyle(slide)}
+          role={isSlider ? 'tabpanel' : undefined}
+          aria-roledescription={isSlider ? 'Folie' : undefined}
+          aria-label={isSlider ? `${i + 1} von ${heroSlides.length}: ${slide.tab}` : undefined}
+          aria-hidden={i === 0 ? undefined : 'true'}
+          data-hero-slide
+          data-anchor={JSON.stringify(slide.anchor)}
+        >
+          <div class="media" aria-hidden="true" data-anim-hero={i === 0 ? 'media' : undefined}>
+            <Image
+              src={img}
+              alt=""
+              widths={[768, 1200, img.width]}
+              sizes="130vw"
+              quality={90}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 ? 'high' : undefined}
+              data-hero-img
+            />
+            <span class="overlay"></span>
           </div>
-          <div class="foot">
-            <p class="desc fs-17 text-muted" data-anim-hero={i === 0 ? "desc" : undefined}>{slide.text}</p>
-            <div class="buttons" data-anim-hero={i === 0 ? "buttons" : undefined}>
-              <Button href={slide.primary.href} variant="primary" icon="arrow-right" class="primary-btn" tabindex={i === 0 ? undefined : '-1'}>
-                {slide.primary.label}
-              </Button>
-              <Button href={slide.secondary.href} variant="white" tabindex={i === 0 ? undefined : '-1'}>
-                {slide.secondary.label}
-              </Button>
+          <div class="container content">
+            <div class="head" data-hero-head>
+              <p class="eyebrow" data-hero-part="eyebrow" data-anim-hero={i === 0 ? 'eyebrow' : undefined}>
+                <BrandMark />
+                <span>{slide.eyebrow}</span>
+              </p>
+              {i === 0 ? (
+                <h1 class="title fs-57 fw-500 font-heading" data-hero-part="title" data-anim-hero="title">
+                  {slide.title[0]}<br />{slide.title[1]}
+                </h1>
+              ) : (
+                <p class="title fs-57 fw-500 font-heading" data-hero-part="title">
+                  {slide.title[0]}<br />{slide.title[1]}
+                </p>
+              )}
+            </div>
+            <div class="foot" data-hero-foot>
+              <p class="desc fs-17 text-muted" data-hero-part="desc" data-anim-hero={i === 0 ? 'desc' : undefined}>
+                {slide.text}
+              </p>
+              <div class="buttons" data-hero-part="buttons" data-anim-hero={i === 0 ? 'buttons' : undefined}>
+                <Button
+                  href={slide.primary.href}
+                  variant="primary"
+                  icon="arrow-right"
+                  tabindex={i === 0 ? undefined : '-1'}
+                >
+                  {slide.primary.label}
+                </Button>
+                <Button href={slide.secondary.href} variant="white" tabindex={i === 0 ? undefined : '-1'}>
+                  {slide.secondary.label}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    ))}
+      );
+    })}
   </div>
 
   <div class="decor" aria-hidden="true">
-    <span class="line" data-anim-hero="line">
-      <svg class="line-diagonal" width="198" height="115" viewBox="0 0 198 115" fill="none">
-        <path d="M0 114.456L197.5 0.43" stroke="url(#hero-line-gradient)" />
-        <defs>
-          <linearGradient id="hero-line-gradient" x1="-7" y1="94.4564" x2="197.5" y2="14.4564" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#C6C6C6" />
-            <stop offset="1" stop-color="#4A9BD3" />
-          </linearGradient>
-        </defs>
-      </svg>
+    <svg class="line" data-anim-hero="line" data-hero-line>
+      <defs>
+        <linearGradient id="hero-line-gradient" x1="0" y1="1" x2="1" y2="0" data-hero-gradient>
+          <stop offset="0" stop-color="#C6C6C6" />
+          <stop offset="1" stop-color="#4A9BD3" />
+        </linearGradient>
+      </defs>
+      <path class="line-h" data-line-h />
+      <path class="line-d" stroke="url(#hero-line-gradient)" data-line-d />
+    </svg>
+    <span class="hotspot" data-anim-hero="hotspot" data-hero-hotspot>
+      <span class="hotspot-core"></span>
     </span>
-    <span class="hotspot" data-anim-hero="hotspot"><span class="hotspot-core"></span></span>
   </div>
 
   {isSlider && (
-    <div class="container dots-wrap">
-      <div class="dots" role="tablist" aria-label="Folie wählen">
-        {heroSlides.map((_, i) => (
-          <button
-            class:list={['dot', { 'is-active': i === 0 }]}
-            type="button"
-            role="tab"
-            aria-selected={i === 0 ? 'true' : 'false'}
-            aria-label={`Folie ${i + 1}`}
-            data-hero-dot={i}
-          ></button>
-        ))}
+    <div class="tabs-bar" data-anim-hero="tabs">
+      <div class="container">
+        <div class="tabs" role="tablist" aria-label="Themen">
+          {heroSlides.map((slide, i) => (
+            <button
+              class:list={['tab', { 'is-active': i === 0 }]}
+              type="button"
+              role="tab"
+              id={`hero-tab-${slide.id}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              aria-controls={`hero-slide-${slide.id}`}
+              tabindex={i === 0 ? undefined : '-1'}
+              data-hero-tab={i}
+            >
+              <span class="bar" aria-hidden="true"><span class="fill"></span></span>
+              <span class="num">{pad(i + 1)}</span>
+              <span class="label">{slide.tab}</span>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   )}

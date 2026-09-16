@@ -56,7 +56,9 @@ function heroIntro() {
       1.05
     );
   }
-  if (hotspot) tl.from(hotspot, { autoAlpha: 0, scale: 0, duration: 0.9, ease: 'back.out(2.4)', clearProps: 'transform' }, 2.2);
+  if (hotspot) tl.from(hotspot, { autoAlpha: 0, scale: 0, duration: 0.9, ease: 'back.out(2.4)' }, 2.2);
+  const tabs = q('tabs');
+  if (tabs) tl.from(tabs, { autoAlpha: 0, yPercent: 100, duration: 1.2 }, 1.2);
 }
 
 function scrollReveals() {
